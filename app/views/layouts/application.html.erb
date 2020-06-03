@@ -18,7 +18,15 @@
 
     <div id="columns">
       <div id="side">
-        <%# Get code later STYLING FOR EVERYTHING TOO %>
+        <div id="cart">
+          <%= render @cart  %>
+        </div>
+        <ul>
+          <li><a href="">Home</a></li>
+          <li><a href="">Questions</a></li>
+          <li><a href="">News</a></li>
+          <li><a href="">Contact</a></li>
+        </ul>
       </div>
       <div id="main">
         <%= yield %>

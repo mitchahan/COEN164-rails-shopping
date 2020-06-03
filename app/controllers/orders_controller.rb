@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  include CurrentCart
+  before_action :set_cart
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   # GET /orders
@@ -25,10 +27,13 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(order_params)
+    @order.add_items_from_cart(@cart)
 
     respond_to do |format|
       if @order.save
-        format.html { redirect_to @order, notice: 'Order was successfully created.' }
+        Cart.destroy(session[:cart_id])      # will also remove all line items. Do we need to do that?
+        session[:cart_id] = nil
+        format.html { redirect_to shopper_url, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new }

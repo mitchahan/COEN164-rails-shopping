@@ -31,14 +31,15 @@ class LineitemsController < ApplicationController
   def create
     # @lineitem = Lineitem.new(lineitem_params)
 
-    product = params[:product_id]
+    product = Product.find(params[:product_id])
     # @lineitem = @cart.lineitems.build(product_id: product)
     @lineitem = @cart.add_item(product.id)
 
     respond_to do |format|
       if @lineitem.save
-        format.html { redirect_to @lineitem.cart, notice: 'Lineitem was successfully created.' }
+        format.html { redirect_to shopper_url, notice: 'Lineitem was successfully created.' }
         format.json { render :show, status: :created, location: @lineitem }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @lineitem.errors, status: :unprocessable_entity }
