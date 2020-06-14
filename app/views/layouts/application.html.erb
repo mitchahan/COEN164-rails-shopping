@@ -12,14 +12,16 @@
   <%# Can't hardcode class="products" otherwise it messes up the CSS and layout for the shopper and admin views. SO, we use controller name %>
   <body class="<%= controller.controller_name%>">
     <div id="banner">
-       <!--<%= image_tag("logo.png") %> -->
-      <%= @page_title || "Our Products" %>
+      <%= @page_title || "Our Comics" %>
     </div>
 
     <div id="columns">
       <div id="side">
+        
         <div id="cart">
-          <%= render @cart  %>
+          <% if @cart != nil %>
+            <%= render(@cart)  %>
+          <% end %>
         </div>
         <ul>
           <li><a href="">Home</a></li>
@@ -27,6 +29,14 @@
           <li><a href="">News</a></li>
           <li><a href="">Contact</a></li>
         </ul>
+        <% if session[:user_id] %>
+          <ul>
+            <li><%= link_to 'Orders', orders_path %></li>
+            <li><%= link_to 'Products', products_path %></li>
+            <li><%= link_to 'Users', users_path %></li>
+          </ul>
+          <%= button_to 'Logout', logout_path, method: :delete %>
+        <% end %>
       </div>
       <div id="main">
         <%= yield %>
